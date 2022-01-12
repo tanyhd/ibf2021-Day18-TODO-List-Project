@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List Landing Page</title>
+    <link rel="stylesheet" href="/bootstrap.css">
+</head>
+<body>
+    <div class="container">
+
+        <div class="row mt-2">
+            <div class="col">
+                <h1>My TODO</h1>
+            </div>
+        </div>
+
+        <form action="/task" method="POST">
+            <input type="hidden" name="contents" data-th-value="${contents}">
+            <div class="mb-2">
+                <label for="taskName" class="form-label">Task Name:</label>
+                <input type="text" name="taskName" id="taskName" placeholder="Please enter a task" class="form-control">
+            </div>
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Add Task</button>
+                <button type="submit" class="btn btn-danger" formaction="/task/save" formmethod="POST">Save</button>
+            </div>
+        </form>
+
+        <div class="row">
+            <div class="col"></div>
+        </div>
+
+        <ul data-th-each="list : ${tasks}">
+            <li data-th-text="${list}"></li>
+        </ul>
+    </div>
+
+</body>
+</html>
