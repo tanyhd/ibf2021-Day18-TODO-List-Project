@@ -1,7 +1,6 @@
 package ibf.ssf.todo.config;
 
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,8 +8,6 @@ import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
-import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,7 +29,7 @@ public class RedisConfig {
 
     private final Logger logger = Logger.getLogger(RedisConfig.class.getName());
 
-    @Bean
+    @Bean("My Template")
     public RedisTemplate<String, String> createRedisTemplate() {
         final RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
         config.setHostName(redisHost);

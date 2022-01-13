@@ -20,15 +20,25 @@ public class TaskService {
         return opt.isPresent();
     }
 
-    public List<String> get(String key) {
+    public List<String> getStringList(String key) {
         Optional<String> opt = taskRepo.get(key);
         List<String> list = new LinkedList<>();
         if(opt.isEmpty()) {
             return list;
         } else {
-            for (String t : opt.get().split("\\|")) {
+            for (String t : opt.get().split(";")) {
                 list.add(t);
             }
         } return list;
     }
+
+    public String getString(String key) {
+        Optional<String> opt = taskRepo.get(key);
+        return opt.get();
+    }
+
+    public void save(String key, String value) {
+        taskRepo.save(key, value);
+    }
+
 }
