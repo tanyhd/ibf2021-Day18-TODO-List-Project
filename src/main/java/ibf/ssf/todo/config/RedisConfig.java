@@ -9,6 +9,7 @@ import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,25 +23,24 @@ public class RedisConfig {
     private Optional<Integer> redisPort;
 
     @Value("${spring.redis.database}")
-    private int redisDatabase; 
+    private int redisDatabase;
 
-    //@Value("${spring.redis.password}")
-    //private String redisPassword
+    private static final String REDIS_PASSWORD = System.getenv("redis_key");
 
     private final Logger logger = Logger.getLogger(RedisConfig.class.getName());
 
     @Bean("My Template")
     public RedisTemplate<String, String> createRedisTemplate() {
+        
         final RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
+        
         config.setHostName(redisHost);
         config.setPort(redisPort.get());
-        config.setDatabase(redisDatabase);
-
-        final String redisPassword = System.getenv("REDIS_PASSWORD");
-        if(null != redisPassword) {
-            logger.log(Level.INFO, "Setting Redis password");
-            config.setPassword(redisPassword);
+        if(null != REDIS_PASSWORD) {
+            config.setPassword(REDIS_PASSWORD);
+            logger.log(Level.INFO, "Set Redis password"); 
         }
+        config.setDatabase(redisDatabase);
 
         final JedisClientConfiguration jedisClient = JedisClientConfiguration.builder().build();
         final JedisConnectionFactory jedisFac = new JedisConnectionFactory(config, jedisClient);
@@ -51,7 +51,7 @@ public class RedisConfig {
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(new StringRedisSerializer());
         return template;
-
     }
+
     
 }
